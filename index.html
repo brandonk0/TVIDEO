@@ -1,0 +1,144 @@
+<html>
+  <head>
+    <style>
+      html, body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        background-color: #fff;
+        text-align: center;
+      }
+      img {
+        height: 250px;
+        opacity: 0.5;
+      }
+      img.hl {
+        opacity: 1;
+      }
+      .hide {
+        display: none;
+      }
+      .full {
+        position: absolute top 50px;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <p style="position:"><button id="spin">SPIN!</button><button id="play">PLAY!</button></p>
+    <p style="display:none">
+      <img id="i1" src="oijwef">
+      <img id="i2" src="oijwef">
+      <img id="i3" src="oijwef">
+    </p>
+    <p>
+      <video id="a1" class="full"></video>
+      <video id="a2" class="full"></video>
+      <video id="a3" class="full"></video>
+      <audio id="spinsound" src="gamemachine01.mp3"></audio>
+    </p>
+  <script>
+    var first = [
+      ['freedom.mp4', 'future1.mp4','cartoon1.mov','theylive.mov','cameos.mov'
+      ],
+      ['link.mp4' , 'future2.mp4','simpsons1.mov','running.mov','rage.mov'
+      ],
+      ['escalator.mp4','future3.mov','simpsons2.mov','fresh.mov']
+    ];
+
+    var second = [
+         ['freedom.mp4', 'future1.mp4','cartoon1.mov','theylive.mov','cameos.mov'
+      ],
+      ['link.mp4','future2.mp4','simpsons1.mov','running.mov','rage.mov'
+      ],
+      ['escalator.mp4','future3.mov','simpsons2.mov','fresh.mov']
+    ];
+
+    var third = [
+      ['freedom.mp4','future1.mp4','cartoon1.mov','theylive.mov','cameos.mov'
+      ],
+      ['link.mp4','future2.mp4','simpsons1.mov','running.mov','rage.mov'
+      ],
+      ['escalator.mp4','future3.mov','simpsons2.mov','fresh.mov']
+    ];
+
+    var soundbank = [first, second, third];
+    var colorSpinInterval;
+
+    var images = [
+      'http://content-2011.mozillafestival.org/uploads/2011/10/chrislarryny-best-145x145-copy.jpg',
+      'https://c1.staticflickr.com/3/2834/9697188965_fd531f30e0_z.jpg',
+      'https://c2.staticflickr.com/2/1329/559583334_75a054b1ae.jpg'
+    ];
+
+    function changeBgColor() {
+      var r = Math.floor(Math.random()*255);
+      var g = Math.floor(Math.random()*255);
+      var b = Math.floor(Math.random()*255);
+      var color = 'rgb(' + r + ',' + g + ',' + b + ')';
+      document.body.style.backgroundColor = color;
+    }
+
+    function pick () {
+      clearInterval(colorSpinInterval);
+      var randomBankIndex1 = Math.floor(Math.random()*soundbank.length);
+      var randomBankIndex2 = Math.floor(Math.random()*soundbank.length);
+      var randomBankIndex3 = Math.floor(Math.random()*soundbank.length);
+
+      var randomBank1 = soundbank[randomBankIndex1];
+      var randomBank2 = soundbank[randomBankIndex2];
+      var randomBank3 = soundbank[randomBankIndex3];
+
+      var randomSound1 = randomBank1[0][Math.floor(Math.random()*randomBank1[0].length)];
+      var randomSound2 = randomBank2[1][Math.floor(Math.random()*randomBank2[1].length)];
+      var randomSound3 = randomBank3[2][Math.floor(Math.random()*randomBank3[2].length)];
+
+      document.querySelector('#a1').src = randomSound1;
+      document.querySelector('#a2').src = randomSound2;
+      document.querySelector('#a3').src = randomSound3;
+
+      document.querySelector('#a2').onended = function () {
+        document.querySelector('#a3').play();
+        document.querySelector('#a2').addClass = 'hide';
+        document.querySelector('#a1').className = '';
+        document.querySelector('#i2').className = '';
+        document.querySelector('#i3').className = 'hl';
+      };
+
+      document.querySelector('#a1').onended = function () {
+        document.querySelector('#a2').play();
+        document.querySelector('#i1').className = '';
+        document.querySelector('#i2').className = 'hl';
+      };
+
+      document.querySelector('#play').onclick = function () {
+        document.querySelector('#a1').play();
+        document.querySelector('#i1').className = 'hl';
+      };
+
+      document.querySelector('#i1').src = images[randomBankIndex1];
+      document.querySelector('#i2').src = images[randomBankIndex2];
+      document.querySelector('#i3').src = images[randomBankIndex3];
+
+    }
+
+    document.querySelector('#spin').onclick = function () {
+      document.querySelector('#i1').src = '';
+      document.querySelector('#i2').src = '';
+      document.querySelector('#i3').src = '';
+      document.querySelector('#i1').className = '';
+      document.querySelector('#i2').className = '';
+      document.querySelector('#i3').className = '';
+      colorSpinInterval = setInterval(changeBgColor, 150);
+      setTimeout(pick, 1000);
+      document.querySelector('#spinsound').currentTime = 0;
+      setTimeout(function () {
+        document.querySelector('#spinsound').play();
+      }, 50);
+    };
+
+  </script>
+  </body>
+
+</html>
